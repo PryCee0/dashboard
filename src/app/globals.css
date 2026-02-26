@@ -1,26 +1,59 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Redpot Media — Brutal Music Editorial palette */
+  --red: #E41E2B;
+  --red-dark: #B8161F;
+  --red-bright: #FF2D3B;
+  --red-glow: rgba(228, 30, 43, 0.35);
+  --black: #060606;
+  --black-warm: #0C0A09;
+  --black-card: #111110;
+  --black-elevated: #1A1918;
+  --white: #F5F0EB;
+  --white-pure: #FFFFFF;
+  --white-muted: rgba(245, 240, 235, 0.65);
+  --white-faint: rgba(245, 240, 235, 0.3);
+  --cream: #E8E0D8;
+
+  --gradient-red: linear-gradient(135deg, #FF2D3B 0%, #E41E2B 50%, #B8161F 100%);
+  --shadow-brutal: 6px 6px 0px var(--red);
+  --shadow-brutal-sm: 3px 3px 0px var(--red);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+::-webkit-scrollbar-track {
+  background: var(--black);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+::-webkit-scrollbar-thumb {
+  background: var(--red-dark);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red);
+}
+
+::selection {
+  background: var(--red);
+  color: var(--white-pure);
+}
+
+/* Noise grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.02;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px;
 }

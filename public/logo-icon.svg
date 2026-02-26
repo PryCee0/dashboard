@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <defs>
+    <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF3B47"/>
+      <stop offset="100%" style="stop-color:#B8161F"/>
+    </linearGradient>
+    <filter id="gl">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Outer ring -->
+  <circle cx="40" cy="40" r="36" fill="none" stroke="url(#rg)" stroke-width="2.5" opacity="0.4"/>
+  <!-- Inner circle -->
+  <circle cx="40" cy="40" r="28" fill="url(#rg)" filter="url(#gl)"/>
+  <!-- Play triangle -->
+  <polygon points="34,26 34,54 54,40" fill="white" opacity="0.95"/>
+  <!-- Decorative sound arcs -->
+  <path d="M56 32 C62 36, 62 44, 56 48" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M60 28 C68 34, 68 46, 60 52" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+</svg>
