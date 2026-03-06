@@ -6,11 +6,11 @@ type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantClasses: Record<ButtonVariant, string> = {
-    primary: 'bg-[#E41E2B] text-white hover:bg-[#B8161F] active:bg-[#8F0F17]',
-    secondary: 'bg-[#F5F0EB]/[0.08] text-[#F5F0EB] border border-[#F5F0EB]/[0.1] hover:bg-[#F5F0EB]/[0.12]',
-    ghost: 'text-[#F5F0EB]/50 hover:text-[#F5F0EB] hover:bg-[#F5F0EB]/[0.06]',
-    danger: 'bg-red-600/15 text-red-400 border border-red-500/20 hover:bg-red-600/25',
-    outline: 'border border-[#E41E2B]/30 text-[#E41E2B] hover:bg-[#E41E2B]/10',
+    primary: 'bg-[#E41E2B] text-white hover:bg-[#B8161F] active:scale-[0.97] active:bg-[#8F0F17] hover:shadow-[0_0_20px_rgba(228,30,43,0.3)]',
+    secondary: 'bg-[#F5F0EB]/[0.08] text-[#F5F0EB] border border-[#F5F0EB]/[0.1] hover:bg-[#F5F0EB]/[0.14] hover:border-[#F5F0EB]/[0.18] active:scale-[0.97]',
+    ghost: 'text-[#F5F0EB]/50 hover:text-[#F5F0EB] hover:bg-[#F5F0EB]/[0.06] active:scale-[0.97]',
+    danger: 'bg-red-600/15 text-red-400 border border-red-500/20 hover:bg-red-600/25 hover:border-red-500/30 active:scale-[0.97]',
+    outline: 'border border-[#E41E2B]/30 text-[#E41E2B] hover:bg-[#E41E2B]/10 hover:border-[#E41E2B]/50 active:scale-[0.97]',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -42,20 +42,26 @@ export default function Button({
 }: ButtonProps) {
     return (
         <button
-            className={`inline-flex items-center justify-center font-semibold uppercase tracking-[1px] transition-all duration-150
-        ${variantClasses[variant]} ${sizeClasses[size]}
-        ${disabled || loading ? 'opacity-40 cursor-not-allowed' : ''}
-        ${fullWidth ? 'w-full' : ''}
-        ${className}`}
+            className={`
+                btn-ripple
+                inline-flex items-center justify-center
+                font-semibold uppercase tracking-[1px]
+                transition-all duration-150
+                ${variantClasses[variant]}
+                ${sizeClasses[size]}
+                ${disabled || loading ? 'opacity-40 cursor-not-allowed !scale-100 !shadow-none' : 'cursor-pointer'}
+                ${fullWidth ? 'w-full' : ''}
+                ${className}
+            `}
             disabled={disabled || loading}
             {...props}
         >
             {loading ? (
-                <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin shrink-0" />
             ) : icon ? (
                 <span className="shrink-0">{icon}</span>
             ) : null}
-            {children}
+            <span>{children}</span>
             {iconRight && <span className="shrink-0">{iconRight}</span>}
         </button>
     );

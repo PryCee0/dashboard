@@ -20,6 +20,203 @@
   --shadow-brutal: 6px 6px 0px var(--red);
   --shadow-brutal-sm: 3px 3px 0px var(--red);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================================
+   REDPOT ANIMATION SYSTEM — Motion Library
+   ============================================================ */
+
+/* --- Keyframes --- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--red-glow); }
+  50%       { box-shadow: 0 0 20px 4px var(--red-glow); }
+}
+
+@keyframes pulseGlowEmerald {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.25); }
+  50%       { box-shadow: 0 0 16px 4px rgba(16,185,129,0.25); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes waveBar {
+  0%, 100% { transform: scaleY(0.4); }
+  50%       { transform: scaleY(1); }
+}
+
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes borderPulse {
+  0%, 100% { border-color: rgba(228, 30, 43, 0.15); }
+  50%       { border-color: rgba(228, 30, 43, 0.4); }
+}
+
+/* --- Animation Utilities --- */
+.animate-fadeInUp    { animation: fadeInUp    0.45s var(--ease-out) both; }
+.animate-fadeInDown  { animation: fadeInDown  0.4s  var(--ease-out) both; }
+.animate-fadeInScale { animation: fadeInScale 0.4s  var(--ease-out) both; }
+.animate-slideInLeft { animation: slideInLeft 0.45s var(--ease-out) both; }
+.animate-slideInRight{ animation: slideInRight 0.4s var(--ease-out) both; }
+.animate-float       { animation: float 3s ease-in-out infinite; }
+.animate-pulseGlow   { animation: pulseGlow 2.5s ease-in-out infinite; }
+.animate-pulseGlowEmerald { animation: pulseGlowEmerald 2.5s ease-in-out infinite; }
+.animate-borderPulse { animation: borderPulse 2s ease-in-out infinite; }
+
+/* Stagger delays */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.12s; }
+.stagger-3 { animation-delay: 0.19s; }
+.stagger-4 { animation-delay: 0.26s; }
+.stagger-5 { animation-delay: 0.33s; }
+.stagger-6 { animation-delay: 0.40s; }
+
+/* Sound wave bars (music visualizer) */
+.wave-bar {
+  display: inline-block;
+  width: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  animation: waveBar 0.8s ease-in-out infinite;
+}
+.wave-bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; height: 100%; }
+.wave-bar:nth-child(4) { animation-delay: 0.15s; height: 70%; }
+.wave-bar:nth-child(5) { animation-delay: 0.05s; height: 45%; }
+
+/* --- Shimmer loading skeleton --- */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(245,240,235,0.04) 25%,
+    rgba(245,240,235,0.08) 50%,
+    rgba(245,240,235,0.04) 75%
+  );
+  background-size: 200% auto;
+  animation: shimmer 1.8s linear infinite;
+}
+
+/* --- Glassmorphism card --- */
+.glass-card {
+  background: rgba(17, 17, 16, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(245, 240, 235, 0.06);
+}
+
+.glass-header {
+  background: rgba(6, 6, 6, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(245, 240, 235, 0.06);
+}
+
+/* --- Hover glow utilities --- */
+.hover-glow-red:hover {
+  box-shadow: 0 0 24px rgba(228, 30, 43, 0.2), 0 4px 12px rgba(0,0,0,0.4);
+  border-color: rgba(228, 30, 43, 0.3) !important;
+}
+
+.hover-glow-white:hover {
+  box-shadow: 0 0 20px rgba(245, 240, 235, 0.05), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* --- Ripple button effect --- */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.4s, opacity 0.4s;
+}
+.btn-ripple:active::after {
+  transform: scale(3);
+  opacity: 0;
+  transition: 0s;
+}
+
+/* --- Active nav indicator --- */
+.nav-indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 16px;
+  background: var(--red);
+  animation: slideInLeft 0.25s var(--ease-out) both;
+}
+
+/* --- Progress bar animation --- */
+.progress-fill {
+  transition: width 0.8s var(--ease-out);
+}
+
+/* --- Counter animation --- */
+.counter-animate {
+  animation: countUp 0.5s var(--ease-out) both;
+}
+
+/* --- Stat card hover --- */
+.stat-card {
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
 /* Scrollbar */

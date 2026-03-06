@@ -1,48 +1,29 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { sidebarNavigation } from '@/lib/mock-data';
+import { SidebarItem } from '@/types';
 import { TranslationKey } from '@/lib/translations';
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher';
 import {
-    LayoutDashboard, Disc3, Wallet, TrendingUp, BarChart3, FileBarChart,
-    Lightbulb, Users, PieChart, CheckCircle, ShieldOff, Shield, Link as LinkIcon,
-    Settings, SlidersHorizontal, CreditCard, Bell, HelpCircle, ScrollText, X,
-    Target, Search, Award, Copyright, BookOpen, Music, DollarSign, Headphones, Disc, Wand2
+    LayoutDashboard, Disc3, Wallet, BarChart3, Link as LinkIcon,
+    HelpCircle, X, Target, Search, Plus,
+    ChevronDown, ChevronUp
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ReactNode> = {
     LayoutDashboard: <LayoutDashboard className="w-4 h-4" />,
     Disc3: <Disc3 className="w-4 h-4" />,
     Wallet: <Wallet className="w-4 h-4" />,
-    TrendingUp: <TrendingUp className="w-4 h-4" />,
     BarChart3: <BarChart3 className="w-4 h-4" />,
-    FileBarChart: <FileBarChart className="w-4 h-4" />,
-    Lightbulb: <Lightbulb className="w-4 h-4" />,
-    Users: <Users className="w-4 h-4" />,
-    PieChart: <PieChart className="w-4 h-4" />,
-    CheckCircle: <CheckCircle className="w-4 h-4" />,
-    ShieldOff: <ShieldOff className="w-4 h-4" />,
-    Shield: <Shield className="w-4 h-4" />,
     Link: <LinkIcon className="w-4 h-4" />,
     Target: <Target className="w-4 h-4" />,
     Search: <Search className="w-4 h-4" />,
-    Award: <Award className="w-4 h-4" />,
-    Copyright: <Copyright className="w-4 h-4" />,
-    BookOpen: <BookOpen className="w-4 h-4" />,
-    Music: <Music className="w-4 h-4" />,
-    DollarSign: <DollarSign className="w-4 h-4" />,
-    Headphones: <Headphones className="w-4 h-4" />,
-    Disc: <Disc className="w-4 h-4" />,
-    Wand2: <Wand2 className="w-4 h-4" />,
-    Settings: <Settings className="w-4 h-4" />,
-    SlidersHorizontal: <SlidersHorizontal className="w-4 h-4" />,
-    CreditCard: <CreditCard className="w-4 h-4" />,
-    Bell: <Bell className="w-4 h-4" />,
     HelpCircle: <HelpCircle className="w-4 h-4" />,
-    ScrollText: <ScrollText className="w-4 h-4" />,
+    Plus: <Plus className="w-4 h-4" />,
 };
 
 // Map sidebar section labels to translation keys
@@ -51,11 +32,7 @@ const sectionLabelMap: Record<string, TranslationKey> = {
     'MÜZİK': 'sidebarMusic',
     'FİNANS': 'sidebarFinance',
     'ANALİTİK': 'sidebarAnalytics',
-    'TELİF': 'sidebarRoyalty',
-    'KORUMA': 'sidebarProtection',
     'PAZARLAMA': 'sidebarMarketing',
-    'EK HİZMETLER': 'sidebarExtras',
-    'AYARLAR': 'sidebarSettings',
     'DESTEK': 'sidebarSupport',
 };
 
@@ -67,6 +44,9 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     const pathname = usePathname();
     const { t } = useLanguage();
+    const [showMoreExtras, setShowMoreExtras] = useState(false);
+
+    const EXTRAS_VISIBLE_COUNT = 4;
 
     return (
         <>
@@ -96,45 +76,67 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
                 {/* Navigation */}
                 <nav className="flex-1 py-4 px-3 space-y-1">
-                    {sidebarNavigation.map((section) => (
-                        <div key={section.label} className="mb-4">
-                            <p className="px-3 text-[10px] font-bold uppercase tracking-[3px] text-[#F5F0EB]/25 mb-2">
-                                {sectionLabelMap[section.label] ? t(sectionLabelMap[section.label]) : section.label}
-                            </p>
-                            {section.items.map((item) => {
-                                const isActive = pathname === item.href;
-                                return (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        className={`flex items-center gap-3 px-3 py-2 text-sm transition-all duration-150 group relative
+                    {sidebarNavigation.map((section) => {
+                        const isExtras = section.label === 'EK HİZMETLER';
+                        const visibleItems = isExtras && !showMoreExtras
+                            ? section.items.slice(0, EXTRAS_VISIBLE_COUNT)
+                            : section.items;
+                        const hiddenCount = isExtras ? section.items.length - EXTRAS_VISIBLE_COUNT : 0;
+
+                        return (
+                            <div key={section.label} className="mb-4">
+                                <p className="px-3 text-[10px] font-bold uppercase tracking-[3px] text-[#F5F0EB]/25 mb-2">
+                                    {sectionLabelMap[section.label] ? t(sectionLabelMap[section.label]) : section.label}
+                                </p>
+                                {visibleItems.map((rawItem) => {
+                                    const item = rawItem as SidebarItem;
+                                    const isActive = pathname === item.href;
+                                    return (
+                                        <Link
+                                            key={item.name}
+                                            href={item.href}
+                                            className={`flex items-center gap-3 px-3 py-2 text-sm transition-all duration-150 group relative
                       ${isActive
-                                                ? 'text-[#F5F0EB] bg-[#E41E2B]/10'
-                                                : 'text-[#F5F0EB]/50 hover:text-[#F5F0EB] hover:bg-[#F5F0EB]/[0.03]'
-                                            }`}
+                                                    ? 'text-[#F5F0EB] bg-[#E41E2B]/10'
+                                                    : 'text-[#F5F0EB]/50 hover:text-[#F5F0EB] hover:bg-[#F5F0EB]/[0.03]'
+                                                }`}
+                                        >
+                                            {isActive && (
+                                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 bg-[#E41E2B]" />
+                                            )}
+                                            <span className={isActive ? 'text-[#E41E2B]' : 'text-[#F5F0EB]/40 group-hover:text-[#F5F0EB]/70'}>
+                                                {iconMap[item.icon] || <LayoutDashboard className="w-4 h-4" />}
+                                            </span>
+                                            <span className="font-medium">{item.name}</span>
+                                            {item.badge && item.badge > 0 && (
+                                                <span className="ml-auto bg-[#E41E2B] text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center">
+                                                    {item.badge}
+                                                </span>
+                                            )}
+                                            {item.badge && item.badge < 0 && (
+                                                <span className="ml-auto text-[8px] font-bold uppercase tracking-[1px] text-[#F5F0EB]/20 bg-[#F5F0EB]/[0.04] px-1.5 py-0.5">
+                                                    Yakında
+                                                </span>
+                                            )}
+                                        </Link>
+                                    );
+                                })}
+                                {isExtras && hiddenCount > 0 && (
+                                    <button
+                                        onClick={() => setShowMoreExtras(!showMoreExtras)}
+                                        className="flex items-center gap-3 px-3 py-2 text-sm text-[#E41E2B]/70 hover:text-[#E41E2B] transition-all duration-150 w-full"
                                     >
-                                        {isActive && (
-                                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 bg-[#E41E2B]" />
-                                        )}
-                                        <span className={isActive ? 'text-[#E41E2B]' : 'text-[#F5F0EB]/40 group-hover:text-[#F5F0EB]/70'}>
-                                            {iconMap[item.icon] || <LayoutDashboard className="w-4 h-4" />}
+                                        <span className="text-[#E41E2B]/40">
+                                            {showMoreExtras ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                                         </span>
-                                        <span className="font-medium">{item.name}</span>
-                                        {item.badge && item.badge > 0 && (
-                                            <span className="ml-auto bg-[#E41E2B] text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center">
-                                                {item.badge}
-                                            </span>
-                                        )}
-                                        {item.badge && item.badge < 0 && (
-                                            <span className="ml-auto text-[8px] font-bold uppercase tracking-[1px] text-[#F5F0EB]/20 bg-[#F5F0EB]/[0.04] px-1.5 py-0.5">
-                                                Yakında
-                                            </span>
-                                        )}
-                                    </Link>
-                                );
-                            })}
-                        </div>
-                    ))}
+                                        <span className="font-medium text-xs">
+                                            {showMoreExtras ? 'Show Less' : `Show More (${hiddenCount})`}
+                                        </span>
+                                    </button>
+                                )}
+                            </div>
+                        );
+                    })}
                 </nav>
 
                 {/* Language + Footer */}
@@ -151,3 +153,4 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </>
     );
 }
+

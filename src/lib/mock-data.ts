@@ -1,86 +1,111 @@
-import { Release, Track, DeliveryLogEntry, ProcessingItem, Announcement, FeatureCard, AnalyticsData, WalletInfo } from '@/types';
+import { Release, ReleaseTrack, StoreDelivery, ReleaseDetail, DeliveryLogEntry, WalletInfo } from '@/types';
 
+// ─── WALLET ──────────────────────────────────────────────────────────────────
 export const mockWallet: WalletInfo = {
     available: 0.00,
     pending: 0.00,
     currency: 'USD',
 };
 
+// ─── RELEASES ─────────────────────────────────────────────────────────────────
 export const mockReleases: Release[] = [
-    { id: '1', title: 'Midnight Echo', artist: 'NOVA', coverUrl: '', status: 'live', releaseDate: '2026-01-15', upc: '012345678901', releaseType: 'single', genre: 'Electronic', label: 'Redpot Records', tracksCount: 1 },
-    { id: '2', title: 'Crimson Waves', artist: 'Pulse Theory', coverUrl: '', status: 'live', releaseDate: '2026-01-20', upc: '012345678902', releaseType: 'ep', genre: 'Alternative', label: 'Redpot Records', tracksCount: 5 },
-    { id: '3', title: 'Urban Solace', artist: 'NOVA', coverUrl: '', status: 'processing', releaseDate: '2026-02-10', upc: '012345678903', releaseType: 'album', genre: 'Indie Pop', label: 'Redpot Records', tracksCount: 12 },
+    { id: '1', title: 'UMRUMDA', artist: 'ARDA', coverUrl: '/covers/cover1.jpg', status: 'live', releaseDate: '2026-01-15', upc: '0609360636746', releaseType: 'single', genre: 'Hip-Hop/Rap', label: 'Redpot Records', tracksCount: 1, language: 'Turkish' },
+    { id: '2', title: 'KAYIP RUH', artist: 'ARDA', coverUrl: '/covers/cover2.jpg', status: 'live', releaseDate: '2026-01-20', upc: '0609360670061', releaseType: 'ep', genre: 'Hip-Hop/Rap', label: 'Redpot Records', tracksCount: 4, language: 'Turkish' },
+    { id: '3', title: 'Onlar Anlamazlar', artist: 'ARDA', coverUrl: '/covers/cover3.jpg', status: 'live', releaseDate: '2025-12-10', upc: '0609360686499', releaseType: 'album', genre: 'Hip-Hop/Rap', label: 'Redpot Records', tracksCount: 8, language: 'Turkish' },
     { id: '4', title: 'Neon Drift', artist: 'Eclipse', coverUrl: '', status: 'pending', releaseDate: '2026-02-18', upc: '012345678904', releaseType: 'single', genre: 'Synthwave', label: 'Redpot Records', tracksCount: 1 },
-    { id: '5', title: 'Shattered Glass', artist: 'Pulse Theory', coverUrl: '', status: 'live', releaseDate: '2025-12-01', upc: '012345678905', releaseType: 'album', genre: 'Rock', label: 'Redpot Records', tracksCount: 10 },
-    { id: '6', title: 'Velvet Storm', artist: 'Luna Arc', coverUrl: '', status: 'live', releaseDate: '2026-02-01', upc: '012345678906', releaseType: 'single', genre: 'R&B', label: 'Redpot Records', tracksCount: 1 },
-    { id: '7', title: 'Horizon Fade', artist: 'Eclipse', coverUrl: '', status: 'processing', releaseDate: '2026-02-22', upc: '012345678907', releaseType: 'ep', genre: 'Electronic', label: 'Redpot Records', tracksCount: 4 },
-    { id: '8', title: 'Phantom Frequency', artist: 'NOVA', coverUrl: '', status: 'draft', releaseDate: '2026-03-01', upc: '', releaseType: 'single', genre: 'Techno', label: 'Redpot Records', tracksCount: 1 },
+    { id: '5', title: 'Shattered Glass', artist: 'Pulse Theory', coverUrl: '', status: 'processing', releaseDate: '2026-02-25', upc: '012345678905', releaseType: 'album', genre: 'Rock', label: 'Redpot Records', tracksCount: 10 },
+    { id: '6', title: 'Velvet Storm', artist: 'Luna Arc', coverUrl: '', status: 'draft', releaseDate: '2026-03-01', upc: '', releaseType: 'single', genre: 'R&B', label: 'Redpot Records', tracksCount: 1 },
 ];
 
-export const mockTopTracks: Track[] = [
-    { id: '1', title: 'Midnight Echo', artist: 'NOVA', streams: 125400, change: 12.5, platform: 'Spotify' },
-    { id: '2', title: 'Crimson Waves', artist: 'Pulse Theory', streams: 98200, change: 8.3, platform: 'Apple Music' },
-    { id: '3', title: 'Shattered Glass', artist: 'Pulse Theory', streams: 76800, change: -2.1, platform: 'Spotify' },
-    { id: '4', title: 'Urban Solace', artist: 'NOVA', streams: 54300, change: 15.7, platform: 'TikTok' },
-    { id: '5', title: 'Neon Drift', artist: 'Eclipse', streams: 32100, change: 5.4, platform: 'YouTube Music' },
+// ─── RELEASE DETAILS ──────────────────────────────────────────────────────────
+const release1Tracks: ReleaseTrack[] = [
+    { id: 't1', trackNumber: 1, title: 'UMRUMDA', artist: 'ARDA', isrc: 'QZW9L2502720', duration: '3:24', explicit: false, genre: 'Hip-Hop/Rap', language: 'Turkish' },
 ];
 
-export const mockDeliveryLog: DeliveryLogEntry[] = [
-    { id: '1', platform: 'Spotify', releaseName: 'Midnight Echo', status: 'completed', date: '2026-01-15' },
-    { id: '2', platform: 'Apple Music', releaseName: 'Midnight Echo', status: 'completed', date: '2026-01-15' },
-    { id: '3', platform: 'KKBOX', releaseName: 'Crimson Waves', status: 'completed', date: '2026-01-20' },
-    { id: '4', platform: 'Deezer', releaseName: 'Crimson Waves', status: 'completed', date: '2026-01-21' },
-    { id: '5', platform: 'TikTok', releaseName: 'Urban Solace', status: 'pending', date: '2026-02-10' },
-    { id: '6', platform: 'YouTube Music', releaseName: 'Urban Solace', status: 'processing', date: '2026-02-10' },
+const release2Tracks: ReleaseTrack[] = [
+    { id: 't2', trackNumber: 1, title: 'INTRO', artist: 'ARDA', isrc: 'QZW9L2502725', duration: '1:48', explicit: false },
+    { id: 't3', trackNumber: 2, title: 'Kayıp Ruhum', artist: 'ARDA', isrc: 'QZW9L2502726', duration: '3:12', explicit: false },
+    { id: 't4', trackNumber: 3, title: 'Çıkamayabilirim Yarına', artist: 'ARDA', isrc: 'QZW9L2502727', duration: '3:45', explicit: false },
+    { id: 't5', trackNumber: 4, title: 'Yalandan İbaret', artist: 'ARDA', isrc: 'QZW9L2502728', duration: '2:58', explicit: false },
 ];
 
-export const mockProcessing: ProcessingItem[] = [
-    { id: '1', title: 'Spotify Discovery Mode', type: 'Feature Request', status: 'pending', date: '2026-02-18' },
-    { id: '2', title: 'Apple Music Connect', type: 'Integration', status: 'processing', date: '2026-02-15' },
-    { id: '3', title: 'Neon Drift - QC Review', type: 'Quality Check', status: 'pending', date: '2026-02-19' },
+const release3Tracks: ReleaseTrack[] = [
+    { id: 't6', trackNumber: 1, title: 'Giriş', artist: 'ARDA', isrc: 'QZW9L2502730', duration: '1:22', explicit: false },
+    { id: 't7', trackNumber: 2, title: 'Onlar Anlamazlar', artist: 'ARDA', isrc: 'QZW9L2502731', duration: '3:10', explicit: false },
+    { id: 't8', trackNumber: 3, title: 'Karanlık Sokaklar', artist: 'ARDA', isrc: 'QZW9L2502732', duration: '3:33', explicit: true },
+    { id: 't9', trackNumber: 4, title: 'Son Söz', artist: 'ARDA', isrc: 'QZW9L2502733', duration: '2:45', explicit: false },
+    { id: 't10', trackNumber: 5, title: 'Yıkılmaz', artist: 'ARDA', isrc: 'QZW9L2502734', duration: '3:18', explicit: false },
+    { id: 't11', trackNumber: 6, title: 'Rüzgarla Dans', artist: 'ARDA', isrc: 'QZW9L2502735', duration: '4:02', explicit: false },
+    { id: 't12', trackNumber: 7, title: 'Gecenin Sesi', artist: 'ARDA', isrc: 'QZW9L2502736', duration: '3:55', explicit: false },
+    { id: 't13', trackNumber: 8, title: 'Final', artist: 'ARDA', isrc: 'QZW9L2502737', duration: '2:30', explicit: false },
 ];
 
-export const mockAnnouncements: Announcement[] = [
-    { id: '1', title: 'Yeni DSP Entegrasyonu: Boomplay', description: 'Artık müziğinizi Boomplay üzerinden de dağıtabilirsiniz.', date: '2026-02-20', type: 'feature' },
-    { id: '2', title: 'Şubat 2026 Telif Raporları', description: 'Ocak ayı telif raporlarınız hesabınıza yüklenmiştir.', date: '2026-02-15', type: 'news' },
-    { id: '3', title: 'Platform Bakımı - 25 Şubat', description: '25 Şubat 02:00-04:00 arası planlı bakım yapılacaktır.', date: '2026-02-14', type: 'update' },
+const commonStores: StoreDelivery[] = [
+    { id: 's1', storeName: 'Spotify', status: 'delivered', deliveryDate: '2026-01-15' },
+    { id: 's2', storeName: 'Apple Music', status: 'delivered', deliveryDate: '2026-01-15' },
+    { id: 's3', storeName: 'Amazon Music', status: 'delivered', deliveryDate: '2026-01-15' },
+    { id: 's4', storeName: 'Deezer', status: 'delivered', deliveryDate: '2026-01-15' },
+    { id: 's5', storeName: 'Tidal', status: 'delivered', deliveryDate: '2026-01-15' },
+    { id: 's6', storeName: 'YouTube Music', status: 'delivered', deliveryDate: '2026-01-16' },
+    { id: 's7', storeName: 'TikTok / Resso', status: 'delivered', deliveryDate: '2026-01-16' },
+    { id: 's8', storeName: 'Instagram / Facebook', status: 'delivered', deliveryDate: '2026-01-16' },
+    { id: 's9', storeName: 'Pandora', status: 'delivered', deliveryDate: '2026-01-16' },
+    { id: 's10', storeName: 'iHeartRadio', status: 'delivered', deliveryDate: '2026-01-16' },
+    { id: 's11', storeName: 'KKBOX', status: 'delivered', deliveryDate: '2026-01-17' },
+    { id: 's12', storeName: 'Anghami', status: 'delivered', deliveryDate: '2026-01-17' },
+    { id: 's13', storeName: 'Boomplay', status: 'delivered', deliveryDate: '2026-01-17' },
+    { id: 's14', storeName: 'Audiomack', status: 'delivered', deliveryDate: '2026-01-17' },
+    { id: 's15', storeName: 'Claro Música', status: 'delivered', deliveryDate: '2026-01-17' },
+    { id: 's16', storeName: 'Napster', status: 'delivered', deliveryDate: '2026-01-17' },
 ];
 
-export const mockAnalytics: Record<string, AnalyticsData[]> = {
-    spotify: [
-        { date: '2026-01', streams: 15000 },
-        { date: '2026-02', streams: 28000 },
-        { date: '2026-03', streams: 0 },
-    ],
-    tiktok: [
-        { date: '2026-01', streams: 8500 },
-        { date: '2026-02', streams: 12000 },
-        { date: '2026-03', streams: 0 },
-    ],
-    applemusic: [
-        { date: '2026-01', streams: 6200 },
-        { date: '2026-02', streams: 9800 },
-        { date: '2026-03', streams: 0 },
-    ],
-    youtubemusic: [
-        { date: '2026-01', streams: 4100 },
-        { date: '2026-02', streams: 7500 },
-        { date: '2026-03', streams: 0 },
-    ],
+const commonAdditional: StoreDelivery[] = [
+    { id: 'a1', storeName: 'YouTube Content ID', status: 'delivered', deliveryDate: '2026-01-15' },
+    { id: 'a2', storeName: 'SoundCloud', status: 'not-included' },
+    { id: 'a3', storeName: 'SoundExchange', status: 'delivered', deliveryDate: '2026-01-15' },
+    { id: 'a4', storeName: 'Beatport', status: 'not-included' },
+    { id: 'a5', storeName: 'LyricFind', status: 'delivered', deliveryDate: '2026-01-16' },
+];
+
+const commonDeliveryLogs: DeliveryLogEntry[] = [
+    { id: 'dl1', platform: 'Spotify', releaseName: 'UMRUMDA', status: 'completed', date: '2026-01-15', actionType: 'Insert' },
+    { id: 'dl2', platform: 'Apple Music', releaseName: 'UMRUMDA', status: 'completed', date: '2026-01-15', actionType: 'Insert' },
+    { id: 'dl3', platform: 'Amazon Music', releaseName: 'UMRUMDA', status: 'completed', date: '2026-01-15', actionType: 'Insert' },
+    { id: 'dl4', platform: 'Deezer', releaseName: 'UMRUMDA', status: 'completed', date: '2026-01-15', actionType: 'Insert' },
+    { id: 'dl5', platform: 'YouTube Music', releaseName: 'UMRUMDA', status: 'completed', date: '2026-01-16', actionType: 'Insert' },
+    { id: 'dl6', platform: 'TikTok / Resso', releaseName: 'UMRUMDA', status: 'completed', date: '2026-01-16', actionType: 'Insert' },
+];
+
+export const mockReleaseDetails: Record<string, ReleaseDetail> = {
+    '1': { ...mockReleases[0], tracks: release1Tracks, storeDeliveries: commonStores, additionalDeliveries: commonAdditional, releaseNotes: [], deliveryLogs: commonDeliveryLogs, copyrightCLine: '2026 Redpot Records', copyrightPLine: '2026 Redpot Records' },
+    '2': { ...mockReleases[1], tracks: release2Tracks, storeDeliveries: commonStores, additionalDeliveries: commonAdditional, releaseNotes: [], deliveryLogs: commonDeliveryLogs.map(d => ({ ...d, releaseName: 'KAYIP RUH' })), copyrightCLine: '2026 Redpot Records', copyrightPLine: '2026 Redpot Records' },
+    '3': { ...mockReleases[2], tracks: release3Tracks, storeDeliveries: commonStores, additionalDeliveries: commonAdditional, releaseNotes: [], deliveryLogs: commonDeliveryLogs.map(d => ({ ...d, releaseName: 'Onlar Anlamazlar' })), copyrightCLine: '2025 Redpot Records', copyrightPLine: '2025 Redpot Records' },
 };
 
-export const mockFeatures: FeatureCard[] = [
-    { id: '1', title: 'Priority Pitch', description: 'DSP platformlarına öncelikli yerleştirme ve editöryel playlist başvurusu.', icon: 'Target', color: '#E41E2B' },
-    { id: '2', title: 'Publishing Administration', description: 'Dünya genelinde yayın haklarınızın yönetimi ve telif toplama.', icon: 'FileText', color: '#3B82F6' },
-    { id: '3', title: 'Greenlist', description: 'Onaylı sanatçı ve içerik listesi yönetimi.', icon: 'CheckCircle', color: '#10B981' },
-    { id: '4', title: 'Blocklist', description: 'İstenmeyen kullanım ve yetkisiz dağıtımı engelleme.', icon: 'ShieldOff', color: '#EF4444' },
-    { id: '5', title: 'Profile Defender', description: 'Sanatçı profilinizi yetkisiz değişikliklerden koruma.', icon: 'Shield', color: '#8B5CF6' },
-    { id: '6', title: 'Cover Song Licensing', description: 'Cover şarkılar için otomatik lisanslama ve yasal uyumluluk.', icon: 'Music', color: '#F59E0B' },
-    { id: '7', title: 'Advance Funding', description: 'Gelecek telif gelirlerinize karşılık avans finansman.', icon: 'DollarSign', color: '#06B6D4' },
-    { id: '8', title: 'Release Links', description: 'Tüm platformlardaki müziğiniz için akıllı bağlantı sayfaları.', icon: 'Link', color: '#EC4899' },
-    { id: '9', title: 'Royalty Splits', description: 'İşbirlikçiler arasında otomatik telif paylaşımı.', icon: 'PieChart', color: '#14B8A6' },
+// ─── ALL DSP STORES (for Release wizard) ──────────────────────────────────────
+export const allDSPStores = [
+    'Spotify', 'Apple Music', 'Amazon Music', 'Deezer', 'Tidal', 'YouTube Music',
+    'TikTok / Resso', 'Instagram / Facebook', 'Pandora', 'iHeartRadio', 'KKBOX',
+    'Anghami', 'Boomplay', 'Audiomack', 'Claro Música', 'Napster', 'Qobuz',
+    'NetEase Cloud Music', 'Tencent Music', 'JioSaavn', 'Gaana', 'Melon',
+    'FLO', 'Bugs!', 'AWA', 'LINE Music', 'Yandex Music', 'Joox',
+    'Shazam', 'Gracenote', 'ACRCloud', 'TikTok Sound Library',
 ];
 
+// ─── SUPPORT TICKET CATEGORIES ────────────────────────────────────────────────
+export const ticketCategories = [
+    { value: 'profile-update', label: 'Profil / Sanatçı Adı Değişikliği' },
+    { value: 'copyright', label: 'Telif Hakkı İhlali (Copyright)' },
+    { value: 'takedown', label: 'Yayın İptali (Takedown)' },
+    { value: 'artist-mapping', label: 'Spotify / Apple Music Profil Eşleştirme' },
+    { value: 'earnings', label: 'Kazanç / Fatura Sorunları' },
+    { value: 'priority-pitch', label: 'Priority Pitch Başvurusu' },
+    { value: 'smart-link', label: 'Smart Link Talebi' },
+    { value: 'discovery-mode', label: 'Discovery Mode Başvurusu' },
+    { value: 'other', label: 'Diğer' },
+];
+
+// ─── SIDEBAR NAVIGATION (Hybrid MVP — 7 sections) ────────────────────────────
 export const sidebarNavigation = [
     {
         label: 'ANA',
@@ -92,74 +117,33 @@ export const sidebarNavigation = [
         label: 'MÜZİK',
         items: [
             { name: 'Releases', icon: 'Disc3', href: '/dashboard/releases' },
+            { name: 'New Release', icon: 'Plus', href: '/dashboard/releases/create' },
         ],
     },
     {
         label: 'FİNANS',
         items: [
-            { name: 'Wallet', icon: 'Wallet', href: '/dashboard/wallet' },
-            { name: 'Sales', icon: 'TrendingUp', href: '/dashboard/sales' },
+            { name: 'Wallet & Royalties', icon: 'Wallet', href: '/dashboard/wallet' },
         ],
     },
     {
         label: 'ANALİTİK',
         items: [
             { name: 'Analytics', icon: 'BarChart3', href: '/dashboard/analytics' },
-            { name: 'Reports', icon: 'FileBarChart', href: '/dashboard/reports' },
-            { name: 'Insights', icon: 'Lightbulb', href: '/dashboard/insights' },
-            { name: 'Audience', icon: 'Users', href: '/dashboard/audience' },
-        ],
-    },
-    {
-        label: 'TELİF',
-        items: [
-            { name: 'Royalty Splits', icon: 'PieChart', href: '/dashboard/royalty-splits' },
-        ],
-    },
-    {
-        label: 'KORUMA',
-        items: [
-            { name: 'Greenlist', icon: 'CheckCircle', href: '/dashboard/greenlist' },
-            { name: 'Blocklist', icon: 'ShieldOff', href: '/dashboard/blocklist' },
-            { name: 'Profile Defender', icon: 'Shield', href: '/dashboard/profile-defender' },
+            { name: 'Usage Discovery', icon: 'Search', href: '/dashboard/usage-discovery' },
         ],
     },
     {
         label: 'PAZARLAMA',
         items: [
-            { name: 'Release Links', icon: 'Link', href: '/dashboard/release-links' },
             { name: 'Priority Pitch', icon: 'Target', href: '/dashboard/priority-pitch' },
-            { name: 'Usage Discovery', icon: 'Search', href: '/dashboard/usage-discovery' },
-        ],
-    },
-    {
-        label: 'EK HİZMETLER',
-        items: [
-            { name: 'Chart Registration', icon: 'Award', href: '#', badge: -1 },
-            { name: 'Copyright Registration', icon: 'Copyright', href: '#', badge: -1 },
-            { name: 'Publishing Admin', icon: 'BookOpen', href: '#', badge: -1 },
-            { name: 'Cover Song Licensing', icon: 'Music', href: '#', badge: -1 },
-            { name: 'Advance Funding', icon: 'DollarSign', href: '#', badge: -1 },
-            { name: 'Audio Recognition', icon: 'Headphones', href: '#', badge: -1 },
-            { name: 'Spotify Discovery', icon: 'Disc', href: '#', badge: -1 },
-            { name: 'AI Mastering', icon: 'Wand2', href: '#', badge: -1 },
-        ],
-    },
-    {
-        label: 'AYARLAR',
-        items: [
-            { name: 'Settings', icon: 'Settings', href: '/dashboard/settings' },
-            { name: 'Preferences', icon: 'SlidersHorizontal', href: '/dashboard/preferences' },
-            { name: 'Billing', icon: 'CreditCard', href: '/dashboard/billing' },
-            { name: 'Notifications', icon: 'Bell', href: '/dashboard/notifications', badge: 3 },
+            { name: 'Smart Links', icon: 'Link', href: '/dashboard/smart-links' },
         ],
     },
     {
         label: 'DESTEK',
         items: [
-            { name: 'Support', icon: 'HelpCircle', href: '/dashboard/support' },
-            { name: 'Changelog', icon: 'ScrollText', href: '/dashboard/changelog' },
+            { name: 'Support & Tools', icon: 'HelpCircle', href: '/dashboard/support' },
         ],
     },
 ];
-

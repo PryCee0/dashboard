@@ -8,6 +8,7 @@ interface CardProps {
     onClick?: () => void;
     hover?: boolean;
     padding?: 'none' | 'sm' | 'md' | 'lg';
+    glow?: boolean;
 }
 
 const paddingClasses = {
@@ -23,16 +24,22 @@ export default function Card({
     onClick,
     hover = false,
     padding = 'md',
+    glow = false,
 }: CardProps) {
     const Component = onClick ? 'button' : 'div';
 
     return (
         <Component
             onClick={onClick}
-            className={`bg-[#111110] border border-[#F5F0EB]/[0.06] ${paddingClasses[padding]}
-        ${hover || onClick ? 'transition-all duration-200 hover:border-[#F5F0EB]/[0.12] hover:bg-[#111110]/80 hover:shadow-lg' : ''}
-        ${onClick ? 'cursor-pointer text-left w-full' : ''}
-        ${className}`}
+            className={`
+                bg-[#111110] border border-[#F5F0EB]/[0.06]
+                ${paddingClasses[padding]}
+                stat-card
+                ${hover || onClick ? 'transition-all duration-200 hover:border-[#F5F0EB]/[0.14] hover:bg-[#131211]' : ''}
+                ${glow ? 'hover-glow-red' : ''}
+                ${onClick ? 'cursor-pointer text-left w-full' : ''}
+                ${className}
+            `}
         >
             {children}
         </Component>
